@@ -283,11 +283,16 @@ a.primary {
 .site-footer {
     grid-column: 1 / -1;
     position: relative;
-    background: linear-gradient(180deg, #0d1117 0%, #161b22 30%, #1a1f2e 100%);
-    color: #a0aec0;
+    background: linear-gradient(180deg, 
+        rgba(47, 92, 255, 0.08) 0%, 
+        rgba(255, 179, 71, 0.05) 50%,
+        rgba(242, 241, 247, 0.9) 100%);
+    backdrop-filter: blur(10px);
+    color: var(--color-muted);
     padding: 0;
     margin-top: 60px;
     overflow: hidden;
+    border-top: 1px solid rgba(47, 92, 255, 0.15);
 }
 
 /* Wave Divider */
@@ -334,7 +339,7 @@ a.primary {
     grid-column: 1 / -1;
     margin-bottom: 48px;
     padding-bottom: 40px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 2px solid rgba(47, 92, 255, 0.1);
 }
 
 .footer-logo {
@@ -346,7 +351,7 @@ a.primary {
 
 .logo-icon {
     font-size: 2.5rem;
-    filter: drop-shadow(0 0 12px rgba(255, 179, 71, 0.4));
+    filter: drop-shadow(0 0 12px rgba(255, 179, 71, 0.5));
     animation: logoPulse 3s ease-in-out infinite;
 }
 
@@ -359,7 +364,7 @@ a.primary {
     font-family: var(--font-display);
     font-size: 1.6rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -368,7 +373,7 @@ a.primary {
 .brand-tagline {
     font-size: 1rem;
     line-height: 1.7;
-    color: #718096;
+    color: var(--color-muted);
     max-width: 480px;
     margin-bottom: 24px;
 }
@@ -386,18 +391,18 @@ a.primary {
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    background: rgba(47, 92, 255, 0.1);
-    border: 1px solid rgba(47, 92, 255, 0.2);
+    background: linear-gradient(135deg, rgba(47, 92, 255, 0.1) 0%, rgba(255, 179, 71, 0.1) 100%);
+    border: 1px solid rgba(47, 92, 255, 0.25);
     border-radius: 999px;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #60a5fa;
+    color: var(--color-primary);
     transition: all 0.3s ease;
 }
 
 .feature-badge:hover {
-    background: rgba(47, 92, 255, 0.2);
-    border-color: rgba(47, 92, 255, 0.4);
+    background: linear-gradient(135deg, rgba(47, 92, 255, 0.2) 0%, rgba(255, 179, 71, 0.2) 100%);
+    border-color: var(--color-primary);
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(47, 92, 255, 0.2);
 }
@@ -419,10 +424,10 @@ a.primary {
     justify-content: center;
     width: 46px;
     height: 46px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, #fff 0%, var(--color-surface) 100%);
+    border: 1px solid rgba(47, 92, 255, 0.2);
     border-radius: 14px;
-    color: #a0aec0;
+    color: var(--color-primary);
     transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
@@ -435,7 +440,7 @@ a.primary {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--color-primary) 0%, #1fd5c7 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
     opacity: 0;
     transition: opacity 0.35s ease;
     z-index: -1;
@@ -451,7 +456,7 @@ a.primary {
     border-color: transparent;
     color: #fff;
     transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 16px 32px rgba(47, 92, 255, 0.4), 0 0 24px rgba(47, 92, 255, 0.3);
+    box-shadow: 0 16px 32px rgba(47, 92, 255, 0.3), 0 0 24px rgba(255, 179, 71, 0.3);
 }
 
 .social-link:hover::before {
@@ -460,12 +465,12 @@ a.primary {
 
 .social-link:hover .social-icon {
     transform: scale(1.15) rotate(8deg);
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 /* Platform-specific hover colors */
 .social-link[aria-label*="GitHub"]:hover {
-    box-shadow: 0 16px 32px rgba(255, 255, 255, 0.3), 0 0 24px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 32px rgba(47, 92, 255, 0.4), 0 0 24px rgba(47, 92, 255, 0.3);
 }
 
 .social-link[aria-label*="Instagram"]:hover {
@@ -496,21 +501,21 @@ a.primary {
 }
 
 .social-link[aria-label*="Email"]:hover {
-    background: linear-gradient(135deg, #ea4335 0%, #fbbc05 100%);
-    box-shadow: 0 16px 32px rgba(234, 67, 53, 0.4), 0 0 24px rgba(234, 67, 53, 0.3);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    box-shadow: 0 16px 32px rgba(47, 92, 255, 0.4), 0 0 24px rgba(255, 179, 71, 0.3);
 }
 
 .social-link[aria-label*="Email"]:hover::before {
-    background: linear-gradient(135deg, #ea4335 0%, #fbbc05 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
 }
 
 .social-link[aria-label*="Website"]:hover {
-    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-    box-shadow: 0 16px 32px rgba(16, 185, 129, 0.4), 0 0 24px rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    box-shadow: 0 16px 32px rgba(47, 92, 255, 0.4), 0 0 24px rgba(255, 179, 71, 0.3);
 }
 
 .social-link[aria-label*="Website"]:hover::before {
-    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
 }
 
 /* Footer Grid */
@@ -531,8 +536,8 @@ a.primary {
     gap: 10px;
     margin-bottom: 24px;
     padding-bottom: 12px;
-    border-bottom: 2px solid transparent;
-    background: linear-gradient(90deg, rgba(47, 92, 255, 0.1) 0%, transparent 100%);
+    border-bottom: 2px solid rgba(47, 92, 255, 0.15);
+    background: linear-gradient(90deg, rgba(47, 92, 255, 0.05) 0%, transparent 100%);
     border-radius: 8px;
     padding: 12px 16px;
     margin-left: -16px;
@@ -540,7 +545,8 @@ a.primary {
 }
 
 .footer-section:hover .footer-section-header {
-    background: linear-gradient(90deg, rgba(47, 92, 255, 0.15) 0%, transparent 100%);
+    background: linear-gradient(90deg, rgba(47, 92, 255, 0.1) 0%, transparent 100%);
+    border-bottom-color: rgba(47, 92, 255, 0.3);
 }
 
 .footer-section-header svg {
@@ -552,7 +558,7 @@ a.primary {
     font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--color-ink);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin: 0;
@@ -574,7 +580,7 @@ a.primary {
     align-items: center;
     gap: 10px;
     padding: 10px 16px;
-    color: #718096;
+    color: var(--color-muted);
     text-decoration: none;
     font-size: 0.95rem;
     border-radius: 8px;
@@ -590,13 +596,13 @@ a.primary {
     top: 0;
     height: 100%;
     width: 3px;
-    background: linear-gradient(180deg, var(--color-primary) 0%, #1fd5c7 100%);
+    background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-accent) 100%);
     transform: scaleY(0);
     transition: transform 0.25s ease;
 }
 
 .footer-links a:hover {
-    color: #fff;
+    color: var(--color-primary);
     background: rgba(47, 92, 255, 0.08);
     transform: translateX(4px);
 }
@@ -619,9 +625,9 @@ a.primary {
 .footer-bottom {
     position: relative;
     z-index: 2;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(47, 92, 255, 0.15);
     padding: 24px 0;
-    background: rgba(0, 0, 0, 0.2);
+    background: linear-gradient(180deg, rgba(242, 241, 247, 0.5) 0%, rgba(47, 92, 255, 0.05) 100%);
 }
 
 .footer-bottom .footer-container {
@@ -641,13 +647,13 @@ a.primary {
 
 .copyright {
     font-size: 0.9rem;
-    color: #718096;
+    color: var(--color-muted);
     margin: 0;
 }
 
 .made-by {
     font-size: 0.9rem;
-    color: #718096;
+    color: var(--color-muted);
     margin: 0;
 }
 
@@ -678,13 +684,13 @@ a.primary {
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(90deg, var(--color-primary) 0%, #1fd5c7 100%);
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
     transform: scaleX(0);
     transition: transform 0.25s ease;
 }
 
 .ladestack-link:hover {
-    color: #1fd5c7;
+    color: var(--color-accent);
 }
 
 .ladestack-link:hover::after {
@@ -710,7 +716,7 @@ a.primary {
 }
 
 .footer-bottom-links .divider {
-    color: rgba(255, 255, 255, 0.1);
+    color: rgba(47, 92, 255, 0.2);
 }
 
 /* Footer Glow Effect */
@@ -721,7 +727,7 @@ a.primary {
     transform: translateX(-50%);
     width: 60%;
     height: 300px;
-    background: radial-gradient(ellipse at center, rgba(47, 92, 255, 0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(47, 92, 255, 0.15) 0%, rgba(255, 179, 71, 0.08) 50%, transparent 70%);
     pointer-events: none;
     z-index: 1;
     animation: glowPulse 6s ease-in-out infinite;
@@ -740,14 +746,14 @@ a.primary {
     right: 0;
     width: 200px;
     height: 200px;
-    background-image: 
-        linear-gradient(45deg, rgba(47, 92, 255, 0.03) 25%, transparent 25%),
-        linear-gradient(-45deg, rgba(47, 92, 255, 0.03) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, rgba(47, 92, 255, 0.03) 75%),
-        linear-gradient(-45deg, transparent 75%, rgba(47, 92, 255, 0.03) 75%);
+    background-image:
+        linear-gradient(45deg, rgba(47, 92, 255, 0.06) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255, 179, 71, 0.06) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(47, 92, 255, 0.06) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255, 179, 71, 0.06) 75%);
     background-size: 20px 20px;
     background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-    opacity: 0.5;
+    opacity: 1;
     pointer-events: none;
     z-index: 1;
 }
