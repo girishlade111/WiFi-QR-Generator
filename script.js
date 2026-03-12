@@ -58,7 +58,7 @@ function updatePasswordState() {
 async function renderPng(payload, size, errorLevel) {
     return new Promise((resolve, reject) => {
         const canvas = document.createElement('canvas');
-        QRCode.toCanvas(
+        window.QRCode.toCanvas(
             canvas,
             payload,
             { width: size, height: size, errorCorrectionLevel: errorLevel, margin: 1 },
@@ -76,7 +76,7 @@ async function renderPng(payload, size, errorLevel) {
 
 async function renderSvg(payload, size, errorLevel) {
     return new Promise((resolve, reject) => {
-        QRCode.toString(
+        window.QRCode.toString(
             payload,
             { type: 'svg', width: size, errorCorrectionLevel: errorLevel, margin: 1 },
             (error, svgString) => {
@@ -130,8 +130,9 @@ function resetForm() {
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    if (typeof QRCode === 'undefined') {
-        setStatus('QR code library failed to load. Check your connection.', true);
+    // Check if QRCode library is loaded
+    if (!window.QRCode) {
+        setStatus('QR code library failed to load. Please refresh the page.', true);
         return;
     }
 
@@ -187,5 +188,6 @@ togglePassword.addEventListener('click', () => {
     togglePassword.textContent = isHidden ? 'Hide' : 'Show';
 });
 
+// Initialize
 updateSizeLabel();
 updatePasswordState();
