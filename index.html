@@ -137,8 +137,9 @@
                 stays in your browser.</p>
         </header>
 
-        <section class="panel">
-            <h2>Network details</h2>
+        <!-- Network Details Form (First on mobile) -->
+        <section class="panel" aria-labelledby="network-details-title">
+            <h2 id="network-details-title">Network details</h2>
             <form id="wifi-form">
                 <label for="ssid">Wi-Fi name (SSID)</label>
                 <input type="text" id="ssid" name="ssid" maxlength="32" autocomplete="off" spellcheck="false" required>
@@ -200,8 +201,9 @@
             </form>
         </section>
 
-        <section class="panel preview" aria-live="polite">
-            <h2>Preview</h2>
+        <!-- QR Code Preview (Below form on mobile) -->
+        <section class="panel preview" aria-labelledby="preview-title">
+            <h2 id="preview-title">Preview</h2>
             <div id="qrcode" class="qr-stage" role="img" aria-label="QR code preview"></div>
             <p id="status" class="status" role="status">Enter your Wi-Fi details to generate a QR code.</p>
             <div class="actions">
