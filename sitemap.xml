@@ -8,6 +8,7 @@
         https://girishlade111.github.io/WiFi-QR-Generator/
         Generated: 2026-03-12
     -->
+    <!-- Main Pages -->
     <url>
         <loc>https://girishlade111.github.io/WiFi-QR-Generator/</loc>
         <lastmod>2026-03-12</lastmod>
@@ -20,16 +21,64 @@
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
+    
+    <!-- Content Pages -->
     <url>
-        <loc>https://girishlade111.github.io/WiFi-QR-Generator/README.md</loc>
+        <loc>https://girishlade111.github.io/WiFi-QR-Generator/about.html</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://girishlade111.github.io/WiFi-QR-Generator/faq.html</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://girishlade111.github.io/WiFi-QR-Generator/contact.html</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Legal Pages -->
+    <url>
+        <loc>https://girishlade111.github.io/WiFi-QR-Generator/privacy-policy.html</loc>
         <lastmod>2026-03-12</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://girishlade111.github.io/WiFi-QR-Generator/terms-of-service.html</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <!-- Documentation & Legal Files -->
+    <url>
+        <loc>https://girishlade111.github.io/WiFi-QR-Generator/README.md</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
     </url>
     <url>
         <loc>https://girishlade111.github.io/WiFi-QR-Generator/LICENSE</loc>
         <lastmod>2026-03-12</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://girishlade111.github.io/WiFi-QR-Generator/robots.txt</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.2</priority>
+    </url>
+    <url>
+        <loc>https://girishlade111.github.io/WiFi-QR-Generator/sitemap.xml</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.2</priority>
     </url>
 </urlset>
