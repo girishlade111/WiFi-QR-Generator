@@ -1,37 +1,142 @@
+# =============================================================================
 # Robots.txt for Wi-Fi QR Code Generator
 # https://girishlade111.github.io/WiFi-QR-Generator/
+# =============================================================================
+# This file tells search engines which pages to crawl and index
+# Generated: 2026-03-12
+# =============================================================================
 
-# Allow all crawlers full access
+# ==================== DEFAULT RULES ====================
+# Allow all crawlers full access to the entire site
 User-agent: *
 Allow: /
+Allow: /*.html$
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+Allow: /*.md$
+Allow: /LICENSE$
 
-# Crawl-delay for polite crawling (optional)
+# Crawl-delay for polite crawling (1 second between requests)
 Crawl-delay: 1
 
-# Sitemap location
-Sitemap: https://girishlade111.github.io/WiFi-QR-Generator/sitemap.xml
+# ==================== SEARCH ENGINE SPECIFIC ====================
 
-# Common bot-specific settings (optional enhancements)
+# Google Bot (Google Search)
 User-agent: Googlebot
 Allow: /
+Allow: /index.html
+Allow: /about.html
+Allow: /faq.html
+Allow: /contact.html
+Allow: /privacy-policy.html
+Allow: /terms-of-service.html
+Allow: /README.md
+Allow: /LICENSE
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.svg$
+Crawl-delay: 0.5
 
+# Google Bot for Images
+User-agent: Googlebot-Image
+Allow: /
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+Crawl-delay: 0.5
+
+# Bing Bot (Bing Search)
 User-agent: Bingbot
 Allow: /
+Allow: /*.html$
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.svg$
+Crawl-delay: 1
 
+# Yahoo Slurp (Yahoo Search)
 User-agent: Slurp
 Allow: /
+Allow: /*.html$
+Crawl-delay: 2
 
+# DuckDuckGo Bot
 User-agent: DuckDuckBot
 Allow: /
+Allow: /*.html$
+Crawl-delay: 1
 
+# Baidu Spider (Chinese Search Engine)
 User-agent: Baiduspider
 Allow: /
+Allow: /*.html$
+Crawl-delay: 2
 
+# Yandex Bot (Russian Search Engine)
 User-agent: YandexBot
 Allow: /
+Allow: /*.html$
+Crawl-delay: 2
 
+# Facebook Bot (for social sharing previews)
 User-agent: facebot
 Allow: /
+Allow: /*.html$
+Allow: /*.png$
+Allow: /*.jpg$
+Crawl-delay: 1
 
+# IA Archiver (Internet Archive)
 User-agent: ia_archiver
 Allow: /
+Allow: /*.html$
+Allow: /*.css$
+Allow: /*.js$
+Crawl-delay: 5
+
+# ==================== DISALLOW RULES ====================
+# Block access to node_modules and development files
+User-agent: *
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /.qwen/
+Disallow: /tests/
+Disallow: /*.test.js$
+Disallow: /package.json$
+Disallow: /package-lock.json$
+Disallow: /vercel.json$
+Disallow: /.env*
+Disallow: /.DS_Store
+Disallow: /*.log$
+Disallow: /*.tmp$
+Disallow: /*.bak$
+
+# ==================== SITEMAP LOCATION ====================
+# Tell search engines where to find the sitemap
+Sitemap: https://girishlade111.github.io/WiFi-QR-Generator/sitemap.xml
+
+# ==================== ADDITIONAL INFORMATION ====================
+# 
+# This website:
+# - Is a static site hosted on GitHub Pages
+# - Contains no sensitive user data
+# - All content is safe for indexing
+# - Supports all major search engines
+#
+# For questions or concerns about crawling, contact:
+# Email: admin@ladestack.in
+# GitHub: https://github.com/girishlade111/WiFi-QR-Generator/issues
+#
+# =============================================================================
