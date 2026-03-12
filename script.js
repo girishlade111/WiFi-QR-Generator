@@ -1,6 +1,9 @@
 // Import QRCode library from CDN as ES module
-import QRCode from 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/+esm';
+import * as QRCodeModule from 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/+esm';
 import { buildWifiPayload, validateWifiInputs } from './lib/wifi-qr.js';
+
+// Robust QRCode object access
+const QRCode = QRCodeModule.default || QRCodeModule;
 
 const form = document.getElementById('wifi-form');
 const ssidInput = document.getElementById('ssid');
@@ -15,7 +18,7 @@ const qrCodeContainer = document.getElementById('qrcode');
 const downloadLink = document.getElementById('download-link');
 const statusEl = document.getElementById('status');
 const copyButton = document.getElementById('copy');
-const resetButton = document.getElementById('clearapp');
+const clearButton = document.getElementById('clearapp');
 const togglePassword = document.getElementById('toggle-password');
 
 const state = {
@@ -23,10 +26,24 @@ const state = {
     objectUrl: null
 };
 
+/**
+ * Update the status message in the UI.
+ * Handles cases where statusEl might be missing.
+ */
 function setStatus(message, isError = false) {
-    statusEl.textContent = message;
-    statusEl.dataset.state = isError ? 'error' : 'info';
+    console.log(`[STATUS] ${isError ? 'ERROR: ' : ''}${message}`);
+    if (statusEl) {
+        statusEl.textContent = message;
+        statusEl.dataset.state = isError ? 'error' : 'info';
+    }
 }
+
+/**
+ * Catch global errors and display them in the status area to aid debugging.
+ */
+window.addEventListener('error', (event) => {
+    setStatus(`App Error: ${event.message}`, true);
+});
 
 function revokeObjectUrl() {
     if (state.objectUrl) {
@@ -36,18 +53,23 @@ function revokeObjectUrl() {
 }
 
 function clearPreview() {
-    qrCodeContainer.innerHTML = '';
+    if (qrCodeContainer) qrCodeContainer.innerHTML = '';
     revokeObjectUrl();
-    downloadLink.style.display = 'none';
-    downloadLink.removeAttribute('href');
-    downloadLink.removeAttribute('download');
+    if (downloadLink) {
+        downloadLink.style.display = 'none';
+        downloadLink.removeAttribute('href');
+        downloadLink.removeAttribute('download');
+    }
 }
 
 function updateSizeLabel() {
-    sizeValue.textContent = `${sizeInput.value} px`;
+    if (sizeValue && sizeInput) {
+        sizeValue.textContent = `${sizeInput.value} px`;
+    }
 }
 
 function updatePasswordState() {
+    if (!authSelect || !passwordInput) return;
     const authType = authSelect.value;
     const requiresPassword = authType !== 'nopass';
     passwordInput.disabled = !requiresPassword;
@@ -58,6 +80,7 @@ function updatePasswordState() {
 }
 
 async function renderPng(payload, size, errorLevel) {
+    if (!qrCodeContainer) return;
     try {
         const dataUrl = await QRCode.toDataURL(payload, {
             width: size,
@@ -82,6 +105,7 @@ async function renderPng(payload, size, errorLevel) {
 }
 
 async function renderSvg(payload, size, errorLevel) {
+    if (!qrCodeContainer) return;
     try {
         const svgString = await QRCode.toString(payload, {
             type: 'svg',
@@ -128,78 +152,89 @@ async function copyPayload() {
 }
 
 function clearapp() {
-    form.reset();
+    if (form) form.reset();
     updateSizeLabel();
     updatePasswordState();
-    togglePassword.textContent = 'Show';
-    passwordInput.type = 'password';
+    if (togglePassword) togglePassword.textContent = 'Show';
+    if (passwordInput) passwordInput.type = 'password';
     state.payload = '';
     clearPreview();
     setStatus('Enter your Wi-Fi details to generate a QR code.');
 }
 
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+// Only initialize listeners if the form exists (prevents crashes on other pages)
+if (form) {
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    const ssid = ssidInput.value.trim();
-    const password = passwordInput.value;
-    const authType = authSelect.value;
-    const hidden = hiddenCheckbox.checked;
+        const ssid = ssidInput.value.trim();
+        const password = passwordInput.value;
+        const authType = authSelect.value;
+        const hidden = hiddenCheckbox.checked;
 
-    const validation = validateWifiInputs({ ssid, password, authType });
-    if (!validation.ok) {
-        setStatus(validation.message, true);
-        return;
-    }
-
-    const payload = buildWifiPayload({ ssid, password, authType, hidden });
-    state.payload = payload;
-    clearPreview();
-
-    const size = Number(sizeInput.value);
-    const errorLevel = errorSelect.value;
-    const format = formatSelect.value;
-
-    try {
-        setStatus('Generating QR code...');
-        
-        const url = format === 'svg'
-            ? await renderSvg(payload, size, errorLevel)
-            : await renderPng(payload, size, errorLevel);
-
-        if (format === 'svg') {
-            revokeObjectUrl();
-            state.objectUrl = url;
-            downloadLink.href = url;
-        } else {
-            downloadLink.href = url;
+        const validation = validateWifiInputs({ ssid, password, authType });
+        if (!validation.ok) {
+            setStatus(validation.message, true);
+            return;
         }
 
-        downloadLink.download = `wifi-qr.${format}`;
-        downloadLink.style.display = 'inline-flex';
-        setStatus('QR code ready. Scan or download the file.');
-    } catch (error) {
-        console.error('Error generating QR code:', error);
-        setStatus('Unable to generate QR code: ' + error.message, true);
+        const payload = buildWifiPayload({ ssid, password, authType, hidden });
+        state.payload = payload;
+        clearPreview();
+
+        const size = Number(sizeInput.value);
+        const errorLevel = errorSelect.value;
+        const format = formatSelect.value;
+
+        try {
+            setStatus('Generating QR code...');
+            
+            const url = format === 'svg'
+                ? await renderSvg(payload, size, errorLevel)
+                : await renderPng(payload, size, errorLevel);
+
+            if (downloadLink) {
+                if (format === 'svg') {
+                    revokeObjectUrl();
+                    state.objectUrl = url;
+                    downloadLink.href = url;
+                } else {
+                    downloadLink.href = url;
+                }
+                downloadLink.download = `wifi-qr.${format}`;
+                downloadLink.style.display = 'inline-flex';
+            }
+            setStatus('QR code ready. Scan or download the file.');
+        } catch (error) {
+            console.error('Error generating QR code:', error);
+            setStatus('Unable to generate QR code: ' + error.message, true);
+        }
+    });
+
+    if (sizeInput) sizeInput.addEventListener('input', updateSizeLabel);
+    if (authSelect) authSelect.addEventListener('change', updatePasswordState);
+    if (copyButton) copyButton.addEventListener('click', copyPayload);
+    if (clearButton) clearButton.addEventListener('click', clearapp);
+
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', () => {
+            const isHidden = passwordInput.type === 'password';
+            passwordInput.type = isHidden ? 'text' : 'password';
+            togglePassword.textContent = isHidden ? 'Hide' : 'Show';
+        });
     }
-});
 
-sizeInput.addEventListener('input', updateSizeLabel);
-authSelect.addEventListener('change', updatePasswordState);
-copyButton.addEventListener('click', copyPayload);
-resetButton.addEventListener('click', clearapp);
-
-togglePassword.addEventListener('click', () => {
-    const isHidden = passwordInput.type === 'password';
-    passwordInput.type = isHidden ? 'text' : 'password';
-    togglePassword.textContent = isHidden ? 'Hide' : 'Show';
-});
+    // Initialize UI
+    updateSizeLabel();
+    updatePasswordState();
+    console.log('Wi-Fi QR Generator script initialized successfully.');
+} else {
+    console.log('Wi-Fi form not found. Generator logic skipped for this page.');
+}
 
 // Export functions for potential external use (like console)
 window.clearapp = clearapp;
-window.generateQR = () => form.dispatchEvent(new Event('submit'));
-
-// Initialize UI
-updateSizeLabel();
-updatePasswordState();
-console.log('Wi-Fi QR Generator script initialized successfully.');
+window.generateQR = () => {
+    if (form) form.dispatchEvent(new Event('submit'));
+    else console.warn('Cannot generate QR: Form not found.');
+};

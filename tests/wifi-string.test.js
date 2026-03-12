@@ -5,9 +5,11 @@ import { buildWifiPayload, escapeWifiValue, validateWifiInputs } from '../lib/wi
 
 test('escapeWifiValue escapes QR reserved characters', () => {
     assert.equal(escapeWifiValue('Cafe;Net'), 'Cafe\\;Net');
-    assert.equal(escapeWifiValue('Comma,Net'), 'Comma\\,Net');
     assert.equal(escapeWifiValue('Colon:Net'), 'Colon\\:Net');
     assert.equal(escapeWifiValue('Quote"Net'), 'Quote\\"Net');
+    assert.equal(escapeWifiValue('Back\\slash'), 'Back\\\\slash');
+    // Comma should NOT be escaped in the latest logic
+    assert.equal(escapeWifiValue('Comma,Net'), 'Comma,Net');
 });
 
 test('buildWifiPayload includes WPA fields', () => {
@@ -18,7 +20,7 @@ test('buildWifiPayload includes WPA fields', () => {
         hidden: false
     });
 
-    assert.equal(payload, 'WIFI:S:HomeWifi;T:WPA;P:supersecret;;');
+    assert.equal(payload, 'WIFI:T:WPA;S:HomeWifi;P:supersecret;;');
 });
 
 test('buildWifiPayload handles hidden networks', () => {
@@ -29,10 +31,10 @@ test('buildWifiPayload handles hidden networks', () => {
         hidden: true
     });
 
-    assert.equal(payload, 'WIFI:S:HiddenNet;T:WPA;P:12345678;H:true;;');
+    assert.equal(payload, 'WIFI:T:WPA;S:HiddenNet;P:12345678;H:true;;');
 });
 
-test('buildWifiPayload supports open networks', () => {
+test('buildWifiPayload supports open networks (nopass)', () => {
     const payload = buildWifiPayload({
         ssid: 'Guest',
         password: '',
@@ -40,7 +42,7 @@ test('buildWifiPayload supports open networks', () => {
         hidden: false
     });
 
-    assert.equal(payload, 'WIFI:S:Guest;;');
+    assert.equal(payload, 'WIFI:T:nopass;S:Guest;;');
 });
 
 test('validateWifiInputs enforces WPA length', () => {

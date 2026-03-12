@@ -257,7 +257,8 @@ a.primary:active {
 }
 
 .qr-stage canvas,
-.qr-stage svg {
+.qr-stage svg,
+.qr-stage img {
     max-width: 100%;
     height: auto;
     width: 100%;
