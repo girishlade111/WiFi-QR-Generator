@@ -15,7 +15,7 @@ const qrCodeContainer = document.getElementById('qrcode');
 const downloadLink = document.getElementById('download-link');
 const statusEl = document.getElementById('status');
 const copyButton = document.getElementById('copy');
-const resetButton = document.getElementById('reset');
+const resetButton = document.getElementById('clearapp');
 const togglePassword = document.getElementById('toggle-password');
 
 const state = {
@@ -127,7 +127,7 @@ async function copyPayload() {
     }
 }
 
-function resetForm() {
+function clearapp() {
     form.reset();
     updateSizeLabel();
     updatePasswordState();
@@ -187,7 +187,7 @@ form.addEventListener('submit', async (event) => {
 sizeInput.addEventListener('input', updateSizeLabel);
 authSelect.addEventListener('change', updatePasswordState);
 copyButton.addEventListener('click', copyPayload);
-resetButton.addEventListener('click', resetForm);
+resetButton.addEventListener('click', clearapp);
 
 togglePassword.addEventListener('click', () => {
     const isHidden = passwordInput.type === 'password';
@@ -195,6 +195,11 @@ togglePassword.addEventListener('click', () => {
     togglePassword.textContent = isHidden ? 'Hide' : 'Show';
 });
 
-// Initialize
+// Export functions for potential external use (like console)
+window.clearapp = clearapp;
+window.generateQR = () => form.dispatchEvent(new Event('submit'));
+
+// Initialize UI
 updateSizeLabel();
 updatePasswordState();
+console.log('Wi-Fi QR Generator script initialized successfully.');

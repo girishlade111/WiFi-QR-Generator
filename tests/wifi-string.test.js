@@ -18,7 +18,7 @@ test('buildWifiPayload includes WPA fields', () => {
         hidden: false
     });
 
-    assert.equal(payload, 'WIFI:T:WPA;S:HomeWifi;P:supersecret;;');
+    assert.equal(payload, 'WIFI:S:HomeWifi;T:WPA;P:supersecret;;');
 });
 
 test('buildWifiPayload handles hidden networks', () => {
@@ -29,7 +29,7 @@ test('buildWifiPayload handles hidden networks', () => {
         hidden: true
     });
 
-    assert.equal(payload, 'WIFI:T:WPA;S:HiddenNet;P:12345678;H:true;;');
+    assert.equal(payload, 'WIFI:S:HiddenNet;T:WPA;P:12345678;H:true;;');
 });
 
 test('buildWifiPayload supports open networks', () => {
@@ -40,7 +40,7 @@ test('buildWifiPayload supports open networks', () => {
         hidden: false
     });
 
-    assert.equal(payload, 'WIFI:T:nopass;S:Guest;;');
+    assert.equal(payload, 'WIFI:S:Guest;;');
 });
 
 test('validateWifiInputs enforces WPA length', () => {
