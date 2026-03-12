@@ -6,5 +6,8 @@
     "scripts": {
         "test": "node --test tests/wifi-string.test.js"
     },
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+        "qrcode": "^1.5.4"
+    }
 }
