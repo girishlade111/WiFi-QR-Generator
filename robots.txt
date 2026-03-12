@@ -1,0 +1,37 @@
+# Robots.txt for Wi-Fi QR Code Generator
+# https://sagarbiswas-multihat.github.io/WiFi-QR-Generator/
+
+# Allow all crawlers full access
+User-agent: *
+Allow: /
+
+# Crawl-delay for polite crawling (optional)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://sagarbiswas-multihat.github.io/WiFi-QR-Generator/sitemap.xml
+
+# Common bot-specific settings (optional enhancements)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebot
+Allow: /
+
+User-agent: ia_archiver
+Allow: /
