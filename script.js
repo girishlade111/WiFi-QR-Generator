@@ -1,3 +1,5 @@
+// Import QRCode library from CDN as ES module
+import QRCode from 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/+esm';
 import { buildWifiPayload, validateWifiInputs } from './lib/wifi-qr.js';
 
 const form = document.getElementById('wifi-form');
@@ -56,41 +58,50 @@ function updatePasswordState() {
 }
 
 async function renderPng(payload, size, errorLevel) {
-    return new Promise((resolve, reject) => {
-        const canvas = document.createElement('canvas');
-        window.QRCode.toCanvas(
-            canvas,
-            payload,
-            { width: size, height: size, errorCorrectionLevel: errorLevel, margin: 1 },
-            (error) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                qrCodeContainer.appendChild(canvas);
-                resolve(canvas.toDataURL('image/png'));
+    try {
+        const dataUrl = await QRCode.toDataURL(payload, {
+            width: size,
+            errorCorrectionLevel: errorLevel,
+            margin: 1,
+            color: {
+                dark: '#000000',
+                light: '#ffffff'
             }
-        );
-    });
+        });
+        
+        const img = document.createElement('img');
+        img.src = dataUrl;
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+        qrCodeContainer.appendChild(img);
+        
+        return dataUrl;
+    } catch (error) {
+        throw error;
+    }
 }
 
 async function renderSvg(payload, size, errorLevel) {
-    return new Promise((resolve, reject) => {
-        window.QRCode.toString(
-            payload,
-            { type: 'svg', width: size, errorCorrectionLevel: errorLevel, margin: 1 },
-            (error, svgString) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                qrCodeContainer.innerHTML = svgString;
-                const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
-                const url = URL.createObjectURL(svgBlob);
-                resolve(url);
+    try {
+        const svgString = await QRCode.toString(payload, {
+            type: 'svg',
+            width: size,
+            errorCorrectionLevel: errorLevel,
+            margin: 1,
+            color: {
+                dark: '#000000',
+                light: '#ffffff'
             }
-        );
-    });
+        });
+        
+        qrCodeContainer.innerHTML = svgString;
+        
+        const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(svgBlob);
+        return url;
+    } catch (error) {
+        throw error;
+    }
 }
 
 async function copyPayload() {
@@ -130,12 +141,6 @@ function resetForm() {
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    // Check if QRCode library is loaded
-    if (!window.QRCode) {
-        setStatus('QR code library failed to load. Please refresh the page.', true);
-        return;
-    }
-
     const ssid = ssidInput.value.trim();
     const password = passwordInput.value;
     const authType = authSelect.value;
@@ -156,6 +161,8 @@ form.addEventListener('submit', async (event) => {
     const format = formatSelect.value;
 
     try {
+        setStatus('Generating QR code...');
+        
         const url = format === 'svg'
             ? await renderSvg(payload, size, errorLevel)
             : await renderPng(payload, size, errorLevel);
@@ -173,7 +180,7 @@ form.addEventListener('submit', async (event) => {
         setStatus('QR code ready. Scan or download the file.');
     } catch (error) {
         console.error('Error generating QR code:', error);
-        setStatus('Unable to generate QR code. Try again.', true);
+        setStatus('Unable to generate QR code: ' + error.message, true);
     }
 });
 
